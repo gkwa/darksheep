@@ -1,47 +1,27 @@
 package report
 
 import (
-	"encoding/json"
 	"fmt"
-	"io"
-	"os"
+	"sort"
 
-	"github.com/taylormonacelli/darksheep/fetch"
+	"github.com/taylormonacelli/darksheep/data"
 )
 
-var repositories []fetch.RepositoryInfo
-
-func LoadCache() error {
-	file, err := os.Open(fetch.Cache)
-	if err != nil {
-		return fmt.Errorf("error opening data.json: %v", err)
-	}
-	defer file.Close()
-
-	content, err := io.ReadAll(file)
-	if err != nil {
-		return fmt.Errorf("error reading data.json: %v", err)
-	}
-
-	err = json.Unmarshal(content, &repositories)
-	if err != nil {
-		return fmt.Errorf("error unmarshaling data: %v", err)
-	}
-	return nil
-}
-
 func Report1() error {
-	err := fetch.Run()
+	err := data.LoadData()
 	if err != nil {
-		return fmt.Errorf("error fetching data: %v", err)
+		return fmt.Errorf("error running loadData func: %v", err)
 	}
 
-	err = LoadCache()
-	if err != nil {
-		return fmt.Errorf("error fetching data: %v", err)
-	}
+	copiedRepos := make([]data.RepositoryInfo, len(data.Repositories))
+	copy(copiedRepos, data.Repositories)
 
-	for _, repo := range repositories {
+	// sort by subpath
+	sort.Slice(copiedRepos, func(i, j int) bool {
+		return copiedRepos[i].Subpath < copiedRepos[j].Subpath
+	})
+
+	for _, repo := range copiedRepos {
 		fmt.Println(repo.Subpath, repo.GitURL, repo.GitURL)
 	}
 

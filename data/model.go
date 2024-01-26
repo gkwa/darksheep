@@ -1,6 +1,5 @@
-package fetch
+package data
 
-// Define the struct to represent the response data
 type RepositoryInfo struct {
 	BrowseURL string `json:"browse_url"`
 	CreatedAt string `json:"created_at"`

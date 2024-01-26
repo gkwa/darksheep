@@ -1,4 +1,4 @@
-package fetch
+package data
 
 import (
 	"encoding/json"
@@ -11,11 +11,11 @@ import (
 )
 
 const (
-	Cache    = "data.json"
+	Cache    = "daggerverse.json"
 	CacheAge = 5 * time.Hour
 )
 
-func Run() error {
+func Fetch() error {
 	url := "https://daggerverse.dev/api/refs"
 
 	var repositories []RepositoryInfo
@@ -29,7 +29,7 @@ func Run() error {
 
 		err = savePrettyPrintedJSON(Cache, data)
 		if err != nil {
-			return fmt.Errorf("error writing to data.json: %v", err)
+			return fmt.Errorf("error writing to %s: %v", Cache, err)
 		}
 
 		err = json.Unmarshal(data, &repositories)
