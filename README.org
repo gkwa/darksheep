@@ -1,7 +1,15 @@
 * darksheep
 
-This is a description of my darksheep.
+** summary
+
+Fetch daggervers modules in order to learn how to write dagger
+modules.
+
+Context:
+https://discord.com/channels/707636530424053791/708371226174685314/1200181604019097731
 
 ** Usage
 
-To use my project, run this command: ./darksheep --verbose
+#+begin_example
+make && ./darksheep report
+#+end_example
